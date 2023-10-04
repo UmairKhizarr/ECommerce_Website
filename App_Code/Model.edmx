@@ -1,0 +1,831 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Gym_AccessoriesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblAdmin">
+          <Key>
+            <PropertyRef Name="adminId" />
+          </Key>
+          <Property Name="adminId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="adminName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="adminEmail" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="adminPassword" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblBrand">
+          <Key>
+            <PropertyRef Name="brandID" />
+          </Key>
+          <Property Name="brandID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="brandName" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblCategory">
+          <Key>
+            <PropertyRef Name="categoryID" />
+          </Key>
+          <Property Name="categoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryName" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblOrderDetail">
+          <Key>
+            <PropertyRef Name="OrderDetialID" />
+          </Key>
+          <Property Name="OrderDetialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productID" Type="int" Nullable="false" />
+          <Property Name="userID" Type="int" />
+          <Property Name="productPrice" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblOrderMain">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="EmailID" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ShippingAddress" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TotalAmount" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblPro">
+          <Key>
+            <PropertyRef Name="productID" />
+          </Key>
+          <Property Name="productID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="productISBN" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="productImage" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProducts">
+          <Key>
+            <PropertyRef Name="productID" />
+          </Key>
+          <Property Name="productID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="productName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="productModel" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="productPrice" Type="money" Nullable="false" />
+          <Property Name="categoryID" Type="int" Nullable="false" />
+          <Property Name="productImage" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="brandID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTemp">
+          <Key>
+            <PropertyRef Name="tempID" />
+          </Key>
+          <Property Name="tempID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductIDD" Type="int" Nullable="false" />
+          <Property Name="uniqueID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="currentDateAndTime" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="userEmail" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="userPassword" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userFName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="userLName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="userEmail" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="userGender" Type="bit" Nullable="false" />
+          <Property Name="userType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserType">
+          <Key>
+            <PropertyRef Name="userTypeID" />
+          </Key>
+          <Property Name="userTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userType" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tblOrderDetail_tblOrderMain">
+          <End Role="tblOrderMain" Type="Self.tblOrderMain" Multiplicity="0..1" />
+          <End Role="tblOrderDetail" Type="Self.tblOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblOrderMain">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="tblOrderDetail">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProducts_tblBrand">
+          <End Role="tblBrand" Type="Self.tblBrand" Multiplicity="1" />
+          <End Role="tblProducts" Type="Self.tblProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBrand">
+              <PropertyRef Name="brandID" />
+            </Principal>
+            <Dependent Role="tblProducts">
+              <PropertyRef Name="brandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProducts_tblCategory">
+          <End Role="tblCategory" Type="Self.tblCategory" Multiplicity="1" />
+          <End Role="tblProducts" Type="Self.tblProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCategory">
+              <PropertyRef Name="categoryID" />
+            </Principal>
+            <Dependent Role="tblProducts">
+              <PropertyRef Name="categoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_UserType">
+          <End Role="UserType" Type="Self.UserType" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserType">
+              <PropertyRef Name="userTypeID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="userType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="adminLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="deleteAdmin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="adminID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteBrand" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="brandID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteCartProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="listAdmins" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="productThrouPID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="productID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="showBrandProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="brandID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="showBrands" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="showCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="showempolyTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="showProductsWBC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="showProWBrAndCat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="catID" Type="int" Mode="In" />
+          <Parameter Name="brandID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="showProWithCat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="catID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="showUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="userLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ViewCart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UniqueID" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="Gym_AccessoriesModelStoreContainer">
+          <EntitySet Name="tblAdmin" EntityType="Self.tblAdmin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblBrand" EntityType="Self.tblBrand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCategory" EntityType="Self.tblCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblOrderDetail" EntityType="Self.tblOrderDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblOrderMain" EntityType="Self.tblOrderMain" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPro" EntityType="Self.tblPro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProducts" EntityType="Self.tblProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTemp" EntityType="Self.tblTemp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserType" EntityType="Self.UserType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblOrderDetail_tblOrderMain" Association="Self.FK_tblOrderDetail_tblOrderMain">
+            <End Role="tblOrderMain" EntitySet="tblOrderMain" />
+            <End Role="tblOrderDetail" EntitySet="tblOrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProducts_tblBrand" Association="Self.FK_tblProducts_tblBrand">
+            <End Role="tblBrand" EntitySet="tblBrand" />
+            <End Role="tblProducts" EntitySet="tblProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProducts_tblCategory" Association="Self.FK_tblProducts_tblCategory">
+            <End Role="tblCategory" EntitySet="tblCategory" />
+            <End Role="tblProducts" EntitySet="tblProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_UserType" Association="Self.FK_User_UserType">
+            <End Role="UserType" EntitySet="UserType" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Gym_AccessoriesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblAdmin">
+          <Key>
+            <PropertyRef Name="adminId" />
+          </Key>
+          <Property Name="adminId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="adminName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="adminEmail" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="adminPassword" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblBrand">
+          <Key>
+            <PropertyRef Name="brandID" />
+          </Key>
+          <Property Name="brandID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="brandName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblProducts" Relationship="Self.FK_tblProducts_tblBrand" FromRole="tblBrand" ToRole="tblProducts" />
+        </EntityType>
+        <EntityType Name="tblCategory">
+          <Key>
+            <PropertyRef Name="categoryID" />
+          </Key>
+          <Property Name="categoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblProducts" Relationship="Self.FK_tblProducts_tblCategory" FromRole="tblCategory" ToRole="tblProducts" />
+        </EntityType>
+        <EntityType Name="tblPro">
+          <Key>
+            <PropertyRef Name="productID" />
+          </Key>
+          <Property Name="productID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="productISBN" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="productImage" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblProduct">
+          <Key>
+            <PropertyRef Name="productID" />
+          </Key>
+          <Property Name="productID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="productModel" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="productPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="categoryID" Type="Int32" Nullable="false" />
+          <Property Name="productImage" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="brandID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblBrand" Relationship="Self.FK_tblProducts_tblBrand" FromRole="tblProducts" ToRole="tblBrand" />
+          <NavigationProperty Name="tblCategory" Relationship="Self.FK_tblProducts_tblCategory" FromRole="tblProducts" ToRole="tblCategory" />
+        </EntityType>
+        <EntityType Name="tblTemp">
+          <Key>
+            <PropertyRef Name="tempID" />
+          </Key>
+          <Property Name="tempID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductIDD" Type="Int32" Nullable="false" />
+          <Property Name="uniqueID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="currentDateAndTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userEmail" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userPassword" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userFName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userLName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userEmail" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userGender" Type="Boolean" Nullable="false" />
+          <Property Name="userType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserType1" Relationship="Self.FK_User_UserType" FromRole="User" ToRole="UserType" />
+        </EntityType>
+        <EntityType Name="UserType">
+          <Key>
+            <PropertyRef Name="userTypeID" />
+          </Key>
+          <Property Name="userTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userType1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_UserType" FromRole="UserType" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_tblProducts_tblBrand">
+          <End Role="tblBrand" Type="Self.tblBrand" Multiplicity="1" />
+          <End Role="tblProducts" Type="Self.tblProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblBrand">
+              <PropertyRef Name="brandID" />
+            </Principal>
+            <Dependent Role="tblProducts">
+              <PropertyRef Name="brandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblProducts_tblCategory">
+          <End Role="tblCategory" Type="Self.tblCategory" Multiplicity="1" />
+          <End Role="tblProducts" Type="Self.tblProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCategory">
+              <PropertyRef Name="categoryID" />
+            </Principal>
+            <Dependent Role="tblProducts">
+              <PropertyRef Name="categoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_UserType">
+          <End Role="UserType" Type="Self.UserType" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserType">
+              <PropertyRef Name="userTypeID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="userType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Gym_AccessoriesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblAdmins" EntityType="Self.tblAdmin" />
+          <EntitySet Name="tblBrands" EntityType="Self.tblBrand" />
+          <EntitySet Name="tblCategories" EntityType="Self.tblCategory" />
+          <EntitySet Name="tblProes" EntityType="Self.tblPro" />
+          <EntitySet Name="tblProducts" EntityType="Self.tblProduct" />
+          <EntitySet Name="tblTemps" EntityType="Self.tblTemp" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserTypes" EntityType="Self.UserType" />
+          <AssociationSet Name="FK_tblProducts_tblBrand" Association="Self.FK_tblProducts_tblBrand">
+            <End Role="tblBrand" EntitySet="tblBrands" />
+            <End Role="tblProducts" EntitySet="tblProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblProducts_tblCategory" Association="Self.FK_tblProducts_tblCategory">
+            <End Role="tblCategory" EntitySet="tblCategories" />
+            <End Role="tblProducts" EntitySet="tblProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_UserType" Association="Self.FK_User_UserType">
+            <End Role="UserType" EntitySet="UserTypes" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <FunctionImport Name="adminLogin" ReturnType="Collection(Gym_AccessoriesModel.adminLogin_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="deleteAdmin">
+          <Parameter Name="adminID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteBrand">
+          <Parameter Name="brandID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteCategory">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteProduct">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="listAdmins" ReturnType="Collection(Gym_AccessoriesModel.listAdmins_Result)" />
+          <FunctionImport Name="productThrouPID" ReturnType="Collection(Gym_AccessoriesModel.productThrouPID_Result)">
+          <Parameter Name="productID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="showBrandProduct" ReturnType="Collection(Gym_AccessoriesModel.showBrandProduct_Result)">
+          <Parameter Name="brandID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="showBrands" ReturnType="Collection(Gym_AccessoriesModel.showBrands_Result)" />
+          <FunctionImport Name="showCategory" ReturnType="Collection(Gym_AccessoriesModel.showCategory_Result)" />
+          <FunctionImport Name="showempolyTypes" />
+          <FunctionImport Name="showProductsWBC" ReturnType="Collection(Gym_AccessoriesModel.showProductsWBC_Result)" />
+          <FunctionImport Name="showProWBrAndCat" ReturnType="Collection(Gym_AccessoriesModel.showProWBrAndCat_Result)">
+            <Parameter Name="catID" Mode="In" Type="Int32" />
+            <Parameter Name="brandID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="showProWithCat" ReturnType="Collection(Gym_AccessoriesModel.showProWithCat_Result)">
+          <Parameter Name="catID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="showUser" ReturnType="Collection(Gym_AccessoriesModel.showUser_Result)" />
+          <FunctionImport Name="userLogin" ReturnType="Collection(Gym_AccessoriesModel.userLogin_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ViewCart" ReturnType="Collection(Gym_AccessoriesModel.ViewCart_Result)">
+          <Parameter Name="UniqueID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="deleteCartProduct">
+          <Parameter Name="ProductID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblOrderDetails" EntityType="Gym_AccessoriesModel.tblOrderDetail" />
+          <EntitySet Name="tblOrderMains" EntityType="Gym_AccessoriesModel.tblOrderMain" />
+          <AssociationSet Name="FK_tblOrderDetail_tblOrderMain" Association="Gym_AccessoriesModel.FK_tblOrderDetail_tblOrderMain">
+            <End Role="tblOrderMain" EntitySet="tblOrderMains" />
+            <End Role="tblOrderDetail" EntitySet="tblOrderDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="adminLogin_Result">
+          <Property Type="Int32" Name="adminId" Nullable="false" />
+          <Property Type="String" Name="adminName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="adminEmail" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="adminPassword" Nullable="false" MaxLength="30" />
+          <Property Type="Boolean" Name="status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="listAdmins_Result">
+          <Property Type="Int32" Name="adminId" Nullable="false" />
+          <Property Type="String" Name="adminName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="adminEmail" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="adminPassword" Nullable="false" MaxLength="30" />
+          <Property Type="Boolean" Name="status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="productThrouPID_Result">
+          <Property Type="String" Name="productName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="productModel" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="productPrice" Nullable="false" Precision="19" />
+          <Property Type="String" Name="productImage" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="showBrandProduct_Result">
+          <Property Type="Int32" Name="productID" Nullable="false" />
+          <Property Type="String" Name="productName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="productModel" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="productPrice" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="categoryID" Nullable="false" />
+          <Property Type="String" Name="productImage" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="brandID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="showBrands_Result">
+          <Property Type="Int32" Name="brandID" Nullable="false" />
+          <Property Type="String" Name="brandName" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="showCategory_Result">
+          <Property Type="Int32" Name="categoryID" Nullable="false" />
+          <Property Type="String" Name="categoryName" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="showProductsWBC_Result">
+          <Property Type="Int32" Name="productID" Nullable="false" />
+          <Property Type="String" Name="productName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="brandName" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="productPrice" Nullable="false" Precision="19" />
+          <Property Type="String" Name="productModel" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="categoryName" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="productImage" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="showProWBrAndCat_Result">
+          <Property Type="Int32" Name="productID" Nullable="false" />
+          <Property Type="String" Name="productName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="productModel" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="productPrice" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="categoryID" Nullable="false" />
+          <Property Type="String" Name="productImage" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="brandID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="showProWithCat_Result">
+          <Property Type="Int32" Name="productID" Nullable="false" />
+          <Property Type="String" Name="productName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="productModel" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="productPrice" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="categoryID" Nullable="false" />
+          <Property Type="String" Name="productImage" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="brandID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="showUser_Result">
+          <Property Type="Int32" Name="userTypeID" Nullable="false" />
+          <Property Type="String" Name="userType" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="userLogin_Result">
+          <Property Type="Int32" Name="userID" Nullable="false" />
+          <Property Type="String" Name="userName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="userEmail" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="userPassword" Nullable="false" MaxLength="30" />
+          <Property Type="Boolean" Name="status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ViewCart_Result">
+          <Property Type="String" Name="productImage" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="productName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="productModel" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="productPrice" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="productID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="tblOrderDetail">
+          <Key>
+            <PropertyRef Name="OrderDetialID" />
+          </Key>
+          <Property Name="OrderDetialID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="productID" Type="Int32" Nullable="false" />
+          <Property Name="userID" Type="Int32" />
+          <Property Name="productPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="tblOrderMain" Relationship="Gym_AccessoriesModel.FK_tblOrderDetail_tblOrderMain" FromRole="tblOrderDetail" ToRole="tblOrderMain" />
+        </EntityType>
+        <EntityType Name="tblOrderMain">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNo" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EmailID" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ShippingAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="tblOrderDetails" Relationship="Gym_AccessoriesModel.FK_tblOrderDetail_tblOrderMain" FromRole="tblOrderMain" ToRole="tblOrderDetail" />
+        </EntityType>
+        <Association Name="FK_tblOrderDetail_tblOrderMain">
+          <End Type="Gym_AccessoriesModel.tblOrderMain" Role="tblOrderMain" Multiplicity="0..1" />
+          <End Type="Gym_AccessoriesModel.tblOrderDetail" Role="tblOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblOrderMain">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="tblOrderDetail">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Gym_AccessoriesModelStoreContainer" CdmEntityContainer="Gym_AccessoriesEntities">
+          <EntitySetMapping Name="tblAdmins">
+            <EntityTypeMapping TypeName="Gym_AccessoriesModel.tblAdmin">
+              <MappingFragment StoreEntitySet="tblAdmin">
+                <ScalarProperty Name="adminId" ColumnName="adminId" />
+                <ScalarProperty Name="adminName" ColumnName="adminName" />
+                <ScalarProperty Name="adminEmail" ColumnName="adminEmail" />
+                <ScalarProperty Name="adminPassword" ColumnName="adminPassword" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblBrands">
+            <EntityTypeMapping TypeName="Gym_AccessoriesModel.tblBrand">
+              <MappingFragment StoreEntitySet="tblBrand">
+                <ScalarProperty Name="brandID" ColumnName="brandID" />
+                <ScalarProperty Name="brandName" ColumnName="brandName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCategories">
+            <EntityTypeMapping TypeName="Gym_AccessoriesModel.tblCategory">
+              <MappingFragment StoreEntitySet="tblCategory">
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProes">
+            <EntityTypeMapping TypeName="Gym_AccessoriesModel.tblPro">
+              <MappingFragment StoreEntitySet="tblPro">
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="productISBN" ColumnName="productISBN" />
+                <ScalarProperty Name="productImage" ColumnName="productImage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProducts">
+            <EntityTypeMapping TypeName="Gym_AccessoriesModel.tblProduct">
+              <MappingFragment StoreEntitySet="tblProducts">
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="productModel" ColumnName="productModel" />
+                <ScalarProperty Name="productPrice" ColumnName="productPrice" />
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+                <ScalarProperty Name="productImage" ColumnName="productImage" />
+                <ScalarProperty Name="brandID" ColumnName="brandID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTemps">
+            <EntityTypeMapping TypeName="Gym_AccessoriesModel.tblTemp">
+              <MappingFragment StoreEntitySet="tblTemp">
+                <ScalarProperty Name="tempID" ColumnName="tempID" />
+                <ScalarProperty Name="ProductIDD" ColumnName="ProductIDD" />
+                <ScalarProperty Name="uniqueID" ColumnName="uniqueID" />
+                <ScalarProperty Name="currentDateAndTime" ColumnName="currentDateAndTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="Gym_AccessoriesModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUser">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Gym_AccessoriesModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userFName" ColumnName="userFName" />
+                <ScalarProperty Name="userLName" ColumnName="userLName" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userGender" ColumnName="userGender" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTypes">
+            <EntityTypeMapping TypeName="Gym_AccessoriesModel.UserType">
+              <MappingFragment StoreEntitySet="UserType">
+                <ScalarProperty Name="userTypeID" ColumnName="userTypeID" />
+                <ScalarProperty Name="userType1" ColumnName="userType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="adminLogin" FunctionName="Gym_AccessoriesModel.Store.adminLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Gym_AccessoriesModel.adminLogin_Result">
+                <ScalarProperty Name="adminId" ColumnName="adminId" />
+                <ScalarProperty Name="adminName" ColumnName="adminName" />
+                <ScalarProperty Name="adminEmail" ColumnName="adminEmail" />
+                <ScalarProperty Name="adminPassword" ColumnName="adminPassword" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="deleteAdmin" FunctionName="Gym_AccessoriesModel.Store.deleteAdmin" />
+          <FunctionImportMapping FunctionImportName="deleteBrand" FunctionName="Gym_AccessoriesModel.Store.deleteBrand" />
+          <FunctionImportMapping FunctionImportName="deleteCategory" FunctionName="Gym_AccessoriesModel.Store.deleteCategory" />
+          <FunctionImportMapping FunctionImportName="deleteProduct" FunctionName="Gym_AccessoriesModel.Store.deleteProduct" />
+          <FunctionImportMapping FunctionImportName="listAdmins" FunctionName="Gym_AccessoriesModel.Store.listAdmins">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Gym_AccessoriesModel.listAdmins_Result">
+                <ScalarProperty Name="adminId" ColumnName="adminId" />
+                <ScalarProperty Name="adminName" ColumnName="adminName" />
+                <ScalarProperty Name="adminEmail" ColumnName="adminEmail" />
+                <ScalarProperty Name="adminPassword" ColumnName="adminPassword" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="productThrouPID" FunctionName="Gym_AccessoriesModel.Store.productThrouPID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Gym_AccessoriesModel.productThrouPID_Result">
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="productModel" ColumnName="productModel" />
+                <ScalarProperty Name="productPrice" ColumnName="productPrice" />
+                <ScalarProperty Name="productImage" ColumnName="productImage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="showBrandProduct" FunctionName="Gym_AccessoriesModel.Store.showBrandProduct">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Gym_AccessoriesModel.showBrandProduct_Result">
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="productModel" ColumnName="productModel" />
+                <ScalarProperty Name="productPrice" ColumnName="productPrice" />
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+                <ScalarProperty Name="productImage" ColumnName="productImage" />
+                <ScalarProperty Name="brandID" ColumnName="brandID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="showBrands" FunctionName="Gym_AccessoriesModel.Store.showBrands">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Gym_AccessoriesModel.showBrands_Result">
+                <ScalarProperty Name="brandID" ColumnName="brandID" />
+                <ScalarProperty Name="brandName" ColumnName="brandName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="showCategory" FunctionName="Gym_AccessoriesModel.Store.showCategory">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Gym_AccessoriesModel.showCategory_Result">
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="showempolyTypes" FunctionName="Gym_AccessoriesModel.Store.showempolyTypes" />
+          <FunctionImportMapping FunctionImportName="showProductsWBC" FunctionName="Gym_AccessoriesModel.Store.showProductsWBC">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Gym_AccessoriesModel.showProductsWBC_Result">
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="brandName" ColumnName="brandName" />
+                <ScalarProperty Name="productPrice" ColumnName="productPrice" />
+                <ScalarProperty Name="productModel" ColumnName="productModel" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+                <ScalarProperty Name="productImage" ColumnName="productImage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="showProWBrAndCat" FunctionName="Gym_AccessoriesModel.Store.showProWBrAndCat">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Gym_AccessoriesModel.showProWBrAndCat_Result">
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="productModel" ColumnName="productModel" />
+                <ScalarProperty Name="productPrice" ColumnName="productPrice" />
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+                <ScalarProperty Name="productImage" ColumnName="productImage" />
+                <ScalarProperty Name="brandID" ColumnName="brandID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="showProWithCat" FunctionName="Gym_AccessoriesModel.Store.showProWithCat">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Gym_AccessoriesModel.showProWithCat_Result">
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="productModel" ColumnName="productModel" />
+                <ScalarProperty Name="productPrice" ColumnName="productPrice" />
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+                <ScalarProperty Name="productImage" ColumnName="productImage" />
+                <ScalarProperty Name="brandID" ColumnName="brandID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="showUser" FunctionName="Gym_AccessoriesModel.Store.showUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Gym_AccessoriesModel.showUser_Result">
+                <ScalarProperty Name="userTypeID" ColumnName="userTypeID" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="userLogin" FunctionName="Gym_AccessoriesModel.Store.userLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Gym_AccessoriesModel.userLogin_Result">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ViewCart" FunctionName="Gym_AccessoriesModel.Store.ViewCart">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Gym_AccessoriesModel.ViewCart_Result">
+                <ScalarProperty Name="productImage" ColumnName="productImage" />
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="productModel" ColumnName="productModel" />
+                <ScalarProperty Name="productPrice" ColumnName="productPrice" />
+                <ScalarProperty Name="productID" ColumnName="productID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="deleteCartProduct" FunctionName="Gym_AccessoriesModel.Store.deleteCartProduct" />
+          <EntitySetMapping Name="tblOrderDetails">
+            <EntityTypeMapping TypeName="Gym_AccessoriesModel.tblOrderDetail">
+              <MappingFragment StoreEntitySet="tblOrderDetail">
+                <ScalarProperty Name="productPrice" ColumnName="productPrice" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="OrderDetialID" ColumnName="OrderDetialID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblOrderMains">
+            <EntityTypeMapping TypeName="Gym_AccessoriesModel.tblOrderMain">
+              <MappingFragment StoreEntitySet="tblOrderMain">
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

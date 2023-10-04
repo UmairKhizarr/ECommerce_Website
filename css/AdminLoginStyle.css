@@ -1,0 +1,50 @@
+﻿
+body {
+    background-image: url("../img/bgLogin.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+}
+
+h1 {
+    padding-bottom: 26px;
+}
+
+.main-wrapper {
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container {
+    width: 400px;
+    /*border: 1px solid gray;*/
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    color: white;
+}
+
+.input-field {
+    width: 100%;
+    margin: 5px 0;
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid #999;
+    outline: none;
+    background: transparent;
+}
+
+btnAdminLogin {
+    padding: 8px 26px;
+    font-weight: 600;
+    font-size: 19px;
+    margin-top: 17px;
+}
+
+
